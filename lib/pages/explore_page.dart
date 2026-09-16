@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../utils/app_colors.dart';
+import '../utils/category_utils.dart';
 import '../widgets/category_chip.dart';
 import '../widgets/comment_sheet.dart';
 import '../widgets/post_card.dart';
@@ -25,28 +26,6 @@ class _ExplorePageState extends State<ExplorePage> {
   int selectedCategory = 0;
   String searchText = "";
   String selectedSort = "newest";
-
-  final List<String> categories = [
-    "All",
-    "Nature",
-    "Islands",
-    "Wildlife",
-    "Adventure",
-    "Food",
-    "City",
-    "Culture",
-  ];
-
-  final List<IconData> categoryIcons = [
-    Icons.apps,
-    Icons.park,
-    Icons.beach_access,
-    Icons.pets,
-    Icons.landscape,
-    Icons.restaurant,
-    Icons.location_city,
-    Icons.museum,
-  ];
 
   @override
   void initState() {
@@ -303,11 +282,13 @@ class _ExplorePageState extends State<ExplorePage> {
                 height: 48,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
+                  itemCount: travelCategories.length,
                   itemBuilder: (context, index) {
+                    final category = travelCategories[index];
+
                     return CategoryChip(
-                      title: categories[index],
-                      icon: categoryIcons[index],
+                      title: category.title,
+                      icon: category.icon,
                       isSelected: selectedCategory == index,
                       onTap: () {
                         setState(() {
@@ -373,7 +354,8 @@ class _ExplorePageState extends State<ExplorePage> {
 
                   /// Category Filter
                   if (selectedCategory != 0) {
-                    final selected = categories[selectedCategory].toLowerCase();
+                    final selected =
+                        travelCategories[selectedCategory].title.toLowerCase();
 
                     filteredPosts = filteredPosts.where((post) {
                       return post.category.toLowerCase() == selected;

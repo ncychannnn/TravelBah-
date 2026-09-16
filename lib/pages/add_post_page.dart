@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/post_model.dart';
 import '../services/firestore_service.dart';
+import '../utils/category_utils.dart';
 import '../widgets/custom_back_button.dart';
 
 class AddPostPage extends StatefulWidget {
@@ -37,16 +38,6 @@ class _AddPostPageState extends State<AddPostPage> {
   final captionController = TextEditingController();
 
   bool isLoading = false;
-
-  static const List<String> categories = [
-    "Nature",
-    "Islands",
-    "Wildlife",
-    "Adventure",
-    "Food",
-    "Culture",
-    "City",
-  ];
 
   @override
   void initState() {
@@ -445,10 +436,10 @@ class _AddPostPageState extends State<AddPostPage> {
                 Autocomplete<String>(
                   optionsBuilder: (TextEditingValue value) {
                     if (value.text.isEmpty) {
-                      return categories;
+                      return postCategories;
                     }
 
-                    return categories.where(
+                    return postCategories.where(
                       (category) => category
                           .toLowerCase()
                           .contains(value.text.toLowerCase()),

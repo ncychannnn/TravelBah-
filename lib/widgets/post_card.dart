@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../utils/app_colors.dart';
+import '../utils/category_utils.dart';
 
 class PostCard extends StatefulWidget {
   final String postId;
@@ -50,51 +52,9 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  Color getCategoryColor() {
-    switch (widget.category.toLowerCase()) {
-      case "nature":
-        return Colors.green.shade600;
-      case "islands":
-        return Colors.blue.shade600;
-      case "wildlife":
-        return Colors.orange.shade700;
-      case "adventure":
-        return Colors.deepPurple.shade600;
-      case "food":
-        return Colors.red.shade600;
-      case "culture":
-        return Colors.brown.shade600;
-      case "city":
-        return Colors.teal.shade600;
-      default:
-        return Colors.grey.shade600;
-    }
-  }
-
-  IconData getCategoryIcon() {
-    switch (widget.category.toLowerCase()) {
-      case "nature":
-        return Icons.park;
-      case "islands":
-        return Icons.beach_access;
-      case "wildlife":
-        return Icons.pets;
-      case "adventure":
-        return Icons.hiking;
-      case "food":
-        return Icons.restaurant;
-      case "culture":
-        return Icons.museum;
-      case "city":
-        return Icons.location_city;
-      default:
-        return Icons.place;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final badgeColor = getCategoryColor();
+    final badgeColor = categoryColor(widget.category);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
@@ -219,7 +179,7 @@ class _PostCardState extends State<PostCard> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            getCategoryIcon(),
+                            categoryIcon(widget.category),
                             color: badgeColor,
                             size: 14,
                           ),
