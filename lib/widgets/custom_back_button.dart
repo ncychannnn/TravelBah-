@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_colors.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({super.key});
@@ -13,22 +14,26 @@ class CustomBackButton extends StatelessWidget {
       ),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: Material(
-          color: const Color(0xffEAF4FF),
-          elevation: 2,
-          borderRadius: BorderRadius.circular(14),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(14),
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const SizedBox(
-              width: 42,
-              height: 42,
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Color(0xff5A8DEE),
-                size: 18,
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFEAF4FF),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: AppColors.primary,
+                  size: 16,
+                ),
               ),
             ),
           ),

@@ -33,51 +33,66 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 12,
-            offset: const Offset(0, 5),
-          ),
-        ],
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: hidePassword,
+      validator: widget.validator,
+      style: const TextStyle(
+        color: AppColors.textDark,
+        fontSize: 15,
       ),
-      child: TextFormField(
-        controller: widget.controller,
-        obscureText: hidePassword,
-        validator: widget.validator,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: TextStyle(
-            color: Colors.grey.shade500,
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 18,
-            horizontal: 15,
-          ),
-          prefixIcon: Icon(
-            widget.icon,
-            color: AppColors.primary,
-          ),
-          suffixIcon: widget.obscureText
-              ? IconButton(
-                  icon: Icon(
-                    hidePassword
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                    color: AppColors.primary,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      hidePassword = !hidePassword;
-                    });
-                  },
-                )
-              : null,
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        hintStyle: const TextStyle(
+          color: AppColors.textGrey,
+          fontSize: 15,
+        ),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 20,
+        ),
+        prefixIcon: Icon(
+          widget.icon,
+          color: AppColors.primary,
+          size: 22,
+        ),
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                icon: Icon(
+                  hidePassword
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: AppColors.primary,
+                  size: 22,
+                ),
+                onPressed: () {
+                  setState(() {
+                    hidePassword = !hidePassword;
+                  });
+                },
+              )
+            : null,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
       ),
     );

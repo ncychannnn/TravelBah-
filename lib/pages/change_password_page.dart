@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/app_colors.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_back_button.dart';
@@ -126,19 +127,19 @@ class _ChangePasswordPageState
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor:
-          const Color(0xffF7F8FA),
+      backgroundColor: AppColors.background,
 
       appBar: AppBar(
-        backgroundColor: const Color(0xffF7F8FA),
+        backgroundColor: AppColors.background,
         elevation: 0,
         centerTitle: true,
         leading: const CustomBackButton(),
         title: const Text(
           "Change Password",
           style: TextStyle(
-            color: Colors.black87,
+            color: AppColors.textDark,
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),
@@ -161,9 +162,9 @@ class _ChangePasswordPageState
                 const SizedBox(height: 15),
 
                 const Icon(
-                  Icons.lock_reset,
+                  Icons.lock_reset_rounded,
                   size: 80,
-                  color: Color(0xff5A8DEE),
+                  color: AppColors.primary,
                 ),
 
                 const SizedBox(height: 20),
@@ -171,9 +172,9 @@ class _ChangePasswordPageState
                 const Text(
                   "Update your password",
                   style: TextStyle(
-                    fontSize: 22,
-                    fontWeight:
-                        FontWeight.bold,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
                   ),
                 ),
 
@@ -182,6 +183,11 @@ class _ChangePasswordPageState
                 const Text(
                   "Your new password must be at least 6 characters.",
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.textGrey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
 
                 const SizedBox(height: 35),

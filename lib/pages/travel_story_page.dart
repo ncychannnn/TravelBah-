@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../utils/app_colors.dart';
 import '../widgets/custom_back_button.dart';
 import '../models/post_model.dart';
 import '../services/firestore_service.dart';
@@ -35,28 +36,28 @@ class _TravelStoryPageState extends State<TravelStoryPage> {
   Color _getCategoryColor(String category) {
     switch (category.toLowerCase()) {
       case "nature":
-        return Colors.green;
+        return Colors.green.shade600;
 
       case "islands":
-        return Colors.blue;
+        return Colors.blue.shade600;
 
       case "wildlife":
-        return Colors.orange;
+        return Colors.orange.shade700;
 
       case "adventure":
-        return Colors.deepPurple;
+        return Colors.deepPurple.shade600;
 
       case "food":
-        return Colors.red;
+        return Colors.red.shade600;
 
       case "culture":
-        return Colors.brown;
+        return Colors.brown.shade600;
 
       case "city":
-        return Colors.teal;
+        return Colors.teal.shade600;
 
       default:
-        return Colors.grey;
+        return Colors.grey.shade600;
     }
   }
 
@@ -89,62 +90,80 @@ class _TravelStoryPageState extends State<TravelStoryPage> {
   }
 
   Widget _buildActionButton({
-  required IconData icon,
-  required String label,
-  int? count,
-  required Color color,
-  required VoidCallback onTap,
-}) {
-  return InkWell(
-    borderRadius: BorderRadius.circular(15),
-    onTap: onTap,
-    child: Container(
-        height: 115,
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-        ),
+    required IconData icon,
+    required String label,
+    int? count,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Container(
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-
-          Icon(
-            icon,
-            color: color,
-          ),
-
-          const SizedBox(height: 6),
-
-          Text(
-            label,
-            style: TextStyle(
-              color: color,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-const SizedBox(height: 4),
-
-          SizedBox(
-            height: 16,
-            child: count != null
-                ? Text(
-                    "$count",
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                  )
-                : null,
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.15),
+          width: 1,
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x04000000),
+            blurRadius: 8,
+            offset: Offset(0, 4),
           ),
         ],
       ),
-    ),
-  );
-}
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: color,
+                  size: 22,
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        label,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: color,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    if (count != null) ...[
+                      const SizedBox(width: 3),
+                      Text(
+                        "($count)",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textGrey,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
 void _showComments(PostModel post) {
   showModalBottomSheet(
@@ -153,7 +172,7 @@ void _showComments(PostModel post) {
     backgroundColor: Colors.white,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
-        top: Radius.circular(25),
+        top: Radius.circular(24),
       ),
     ),
     builder: (context) {
@@ -165,10 +184,10 @@ void _showComments(PostModel post) {
             const SizedBox(height: 12),
 
             Container(
-              width: 45,
-              height: 5,
+              width: 40,
+              height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade400,
+                color: AppColors.border,
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -178,12 +197,14 @@ void _showComments(PostModel post) {
             const Text(
               "Comments",
               style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textDark,
               ),
             ),
 
-            const Divider(),
+            const SizedBox(height: 8),
+            const Divider(height: 1, color: AppColors.border),
 
             Expanded(
               child: StreamBuilder<List<CommentModel>>(
@@ -242,32 +263,30 @@ void _showComments(PostModel post) {
                       return Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 16,
-                          vertical: 8,
+                          vertical: 6,
                         ),
-                        padding: const EdgeInsets.all(14),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.08),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.border),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
 
                             CircleAvatar(
-                              radius: 22,
-                              backgroundColor: Colors.grey.shade300,
+                              radius: 18,
+                              backgroundColor: const Color(0xFFF0F4FA),
                               backgroundImage: comment.profileImage.isNotEmpty
                                   ? NetworkImage(comment.profileImage)
                                   : null,
                               child: comment.profileImage.isEmpty
-                                  ? const Icon(Icons.person)
+                                  ? const Icon(
+                                      Icons.person,
+                                      size: 18,
+                                      color: AppColors.textGrey,
+                                    )
                                   : null,
                             ),
 
@@ -289,31 +308,32 @@ void _showComments(PostModel post) {
                                     child: Text(
                                       comment.username,
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        color: AppColors.textDark,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
 
                                   if (comment.uid == currentUid) ...[
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: 6),
 
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 3,
+                                        horizontal: 6,
+                                        vertical: 2,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: Colors.blue.shade50,
-                                        borderRadius: BorderRadius.circular(20),
+                                        color: const Color(0xFFEAF4FF),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Text(
+                                      child: const Text(
                                         "You",
                                         style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
+                                          color: AppColors.primary,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 10,
+                                          fontSize: 9,
                                         ),
                                       ),
                                     ),
@@ -324,6 +344,12 @@ void _showComments(PostModel post) {
 
                                       if (comment.uid == currentUid)
                                         PopupMenuButton<String>(
+                                          padding: EdgeInsets.zero,
+                                          icon: const Icon(
+                                            Icons.more_horiz_rounded,
+                                            color: AppColors.textGrey,
+                                            size: 18,
+                                          ),
                                           onSelected: (value) {
                                             if (value == "edit") {
                                               _showEditCommentDialog(
@@ -353,22 +379,25 @@ void _showComments(PostModel post) {
                                     ],
                                   ),
 
-                                  const SizedBox(height: 6),
+                                  const SizedBox(height: 4),
 
                                   Text(
                                     comment.comment,
                                     style: const TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 14,
+                                      color: AppColors.textDark,
+                                      height: 1.3,
                                     ),
                                   ),
 
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 6),
 
                                   Text(
                                     timeago.format(comment.createdAt),
-                                    style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontSize: 12,
+                                    style: const TextStyle(
+                                      color: AppColors.textGrey,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
@@ -393,7 +422,7 @@ void _showComments(PostModel post) {
               decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: Color(0xFFE0E0E0),
+                    color: AppColors.border,
                   ),
                 ),
               ),
@@ -403,17 +432,27 @@ void _showComments(PostModel post) {
                   Expanded(
                     child: TextField(
                       controller: commentController,
+                      style: const TextStyle(fontSize: 14, color: AppColors.textDark),
                       decoration: InputDecoration(
                         hintText: "Write a comment...",
+                        hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
                         filled: true,
-                        fillColor: Colors.grey.shade100,
+                        fillColor: Colors.white,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(color: AppColors.border),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(color: AppColors.border),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(color: AppColors.primary),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 12,
+                          horizontal: 16,
+                          vertical: 10,
                         ),
                       ),
                     ),
@@ -422,11 +461,13 @@ void _showComments(PostModel post) {
                   const SizedBox(width: 10),
 
                   CircleAvatar(
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: AppColors.primary,
+                    radius: 20,
                     child: IconButton(
                       icon: const Icon(
-                        Icons.send,
+                        Icons.send_rounded,
                         color: Colors.white,
+                        size: 18,
                       ),
                       onPressed: () async {
 
@@ -478,12 +519,32 @@ void _showEditCommentDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text("Edit Comment"),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: const Text(
+          "Edit Comment",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         content: TextField(
           controller: controller,
           maxLines: 3,
-          decoration: const InputDecoration(
+          style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+          decoration: InputDecoration(
             hintText: "Edit your comment...",
+            hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.border),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.primary),
+            ),
           ),
         ),
         actions: [
@@ -492,10 +553,20 @@ void _showEditCommentDialog(
             onPressed: () {
               Navigator.pop(context);
             },
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.textGrey,
+            ),
             child: const Text("Cancel"),
           ),
 
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
             onPressed: () async {
               if (controller.text.trim().isEmpty) return;
 
@@ -526,34 +597,43 @@ void _showDeleteCommentDialog(
     builder: (context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
       title: Row(
         children: const [
           Icon(
-            Icons.delete_outline,
-            color: Colors.red,
+            Icons.delete_outline_rounded,
+            color: AppColors.error,
           ),
           SizedBox(width: 10),
-          Text("Delete Comment"),
+          Text(
+            "Delete Comment",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ],
       ),
       content: const Text(
-        "Are you sure you want to delete this comment?\n\nThis action cannot be undone.",
+        "Are you sure you want to delete this comment? This action cannot be undone.",
       ),
       actions: [
 
-        OutlinedButton(
+        TextButton(
           onPressed: () {
             Navigator.pop(context);
           },
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.textGrey,
+          ),
           child: const Text("Cancel"),
         ),
 
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.error,
             foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           onPressed: () async {
             await firestore.deleteComment(
@@ -565,7 +645,7 @@ void _showDeleteCommentDialog(
               Navigator.pop(context);
             }
           },
-          icon: const Icon(Icons.delete),
+          icon: const Icon(Icons.delete_rounded, size: 18),
           label: const Text("Delete"),
         ),
       ],
@@ -577,16 +657,18 @@ void _showDeleteCommentDialog(
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         elevation: 0,
         centerTitle: true,
         leading: const CustomBackButton(),
         title: const Text(
           "Travel Story",
           style: TextStyle(
-            color: Colors.black87,
+            color: AppColors.textDark,
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),
@@ -613,23 +695,38 @@ void _showDeleteCommentDialog(
         snapshot.data!.id,
       );
 
+      final badgeColor = _getCategoryColor(post.category);
+
     return SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// USER
             Row(
               children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: Colors.grey.shade300,
-                  backgroundImage: post.profileImage.isNotEmpty
-                      ? NetworkImage(post.profileImage)
-                      : null,
-                  child: post.profileImage.isEmpty
-                      ? const Icon(Icons.person)
-                      : null,
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.border,
+                      width: 1,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: const Color(0xFFF0F4FA),
+                    backgroundImage: post.profileImage.isNotEmpty
+                        ? NetworkImage(post.profileImage)
+                        : null,
+                    child: post.profileImage.isEmpty
+                        ? const Icon(
+                            Icons.person,
+                            size: 20,
+                            color: AppColors.textGrey,
+                          )
+                        : null,
+                  ),
                 ),
 
                 const SizedBox(width: 12),
@@ -637,8 +734,9 @@ void _showDeleteCommentDialog(
                 Text(
                   post.username,
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textDark,
                   ),
                 ),
               ],
@@ -648,11 +746,11 @@ void _showDeleteCommentDialog(
 
             /// IMAGE
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
               child: Image.network(
                 post.imageUrl,
                 width: double.infinity,
-                height: 260,
+                height: 240,
                 fit: BoxFit.cover,
               ),
             ),
@@ -662,59 +760,80 @@ void _showDeleteCommentDialog(
             /// CATEGORY
             Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 14,
-                vertical: 8,
+                horizontal: 12,
+                vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: _getCategoryColor(post.category),
-                borderRadius: BorderRadius.circular(30),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: badgeColor.withOpacity(0.3),
+                  width: 1,
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x04000000),
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     _getCategoryIcon(post.category),
-                    color: Colors.white,
-                    size: 18,
+                    color: badgeColor,
+                    size: 14,
                   ),
 
                   const SizedBox(width: 6),
 
                   Text(
                     post.category,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    style: TextStyle(
+                      color: badgeColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
                     ),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 16),
 
             /// TITLE
             Text(
               post.title,
               style: const TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textDark,
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
 
             /// LOCATION
             Row(
               children: [
                 const Icon(
-                  Icons.location_on,
-                  color: Colors.red,
+                  Icons.location_on_rounded,
+                  color: AppColors.primary,
+                  size: 16,
                 ),
 
-                const SizedBox(width: 6),
+                const SizedBox(width: 4),
 
-                Text(post.location),
+                Text(
+                  post.location,
+                  style: const TextStyle(
+                    color: AppColors.textLight,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
 
@@ -724,8 +843,9 @@ void _showDeleteCommentDialog(
             Text(
               post.caption,
               style: const TextStyle(
-                fontSize: 16,
-                height: 1.6,
+                fontSize: 14,
+                color: AppColors.textDark,
+                height: 1.5,
               ),
             ),
 
@@ -746,11 +866,11 @@ void _showDeleteCommentDialog(
 
                   return _buildActionButton(
                     icon: liked
-                        ? Icons.favorite
-                        : Icons.favorite_border,
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
                     label: "Like",
                     count: post.likesCount,
-                    color: Colors.red,
+                    color: Colors.red.shade400,
                     onTap: () async {
                       await firestore.toggleLike(
                         post.id,
@@ -766,10 +886,10 @@ void _showDeleteCommentDialog(
 
                 Expanded(
                   child: _buildActionButton(
-                    icon: Icons.chat_bubble_outline,
+                    icon: Icons.chat_bubble_outline_rounded,
                     label: "Comments",
                     count: post.commentsCount,
-                    color: Colors.blue,
+                    color: Colors.blue.shade400,
                     onTap: () {
                       _showComments(post);
                     },
@@ -789,10 +909,10 @@ void _showDeleteCommentDialog(
 
                       return _buildActionButton(
                         icon: saved
-                            ? Icons.bookmark
-                            : Icons.bookmark_border,
+                            ? Icons.bookmark_rounded
+                            : Icons.bookmark_border_rounded,
                         label: saved ? "Saved" : "Save",
-                        color: Colors.orange,
+                        color: Colors.orange.shade400,
                         onTap: () async {
                           if (saved) {
                             await firestore.removeSavedPost(
@@ -800,7 +920,7 @@ void _showDeleteCommentDialog(
                               post.id,
                             );
 
-                            if (mounted) {
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
@@ -815,11 +935,11 @@ void _showDeleteCommentDialog(
                               post.id,
                             );
 
-                            if (mounted) {
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                    "Added to wishlist ❤️",
+                                    "Added to wishlist",
                                   ),
                                 ),
                               );

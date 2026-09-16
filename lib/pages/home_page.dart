@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/app_colors.dart';
 import 'explore_page.dart';
 import 'community_page.dart';
 import 'wishlist_page.dart';
@@ -16,12 +17,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
-final List<Widget> pages = [
-  const ExplorePage(),
-  CommunityPage(),
-  WishlistPage(),
-  const ProfilePage(),
-];
+  final List<Widget> pages = [
+    const ExplorePage(),
+    CommunityPage(),
+    WishlistPage(),
+    const ProfilePage(),
+  ];
 
   void changePage(int index) {
     setState(() {
@@ -35,13 +36,14 @@ final List<Widget> pages = [
       body: pages[currentIndex],
 
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff5A8DEE),
-        elevation: 5,
+        backgroundColor: AppColors.primary,
+        elevation: 4,
+        highlightElevation: 6,
         shape: const CircleBorder(),
         child: const Icon(
-          Icons.add,
+          Icons.add_rounded,
           color: Colors.white,
-          size: 34,
+          size: 32,
         ),
         onPressed: () {
           Navigator.push(
@@ -58,39 +60,38 @@ final List<Widget> pages = [
 
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        notchMargin: 10,
-        elevation: 12,
+        notchMargin: 8,
+        elevation: 8,
+        shadowColor: Colors.black26,
         color: Colors.white,
-
+        padding: EdgeInsets.zero,
         child: SizedBox(
-          height: 72,
-
+          height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-
               _navItem(
-                Icons.home_rounded,
+                Icons.explore_outlined,
+                Icons.explore_rounded,
                 "Explore",
                 0,
               ),
-
               _navItem(
-                Icons.groups_rounded,
+                Icons.people_outline_rounded,
+                Icons.people_rounded,
                 "Community",
                 1,
               ),
-
-              const SizedBox(width: 40),
-
+              const SizedBox(width: 48),
               _navItem(
-                Icons.favorite_border,
-                "Wishlist",
+                Icons.bookmark_outline_rounded,
+                Icons.bookmark_rounded,
+                "Saved",
                 2,
               ),
-
               _navItem(
-                Icons.person_outline,
+                Icons.person_outline_rounded,
+                Icons.person_rounded,
                 "Profile",
                 3,
               ),
@@ -103,41 +104,43 @@ final List<Widget> pages = [
 
   Widget _navItem(
     IconData icon,
+    IconData activeIcon,
     String label,
     int index,
   ) {
     final selected = currentIndex == index;
 
-    return InkWell(
-      onTap: () => changePage(index),
-
-      child: SizedBox(
-        width: 70,
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            Icon(
-              icon,
-              color: selected
-                  ? const Color(0xff5A8DEE)
-                  : Colors.grey,
-            ),
-
-            const SizedBox(height: 3),
-
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: InkWell(
+        onTap: () => changePage(index),
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          width: 76,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                selected ? activeIcon : icon,
                 color: selected
-                    ? const Color(0xff5A8DEE)
-                    : Colors.grey,
+                    ? AppColors.primary
+                    : AppColors.textGrey,
+                size: 24,
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  color: selected
+                      ? AppColors.primary
+                      : AppColors.textGrey,
+                  letterSpacing: 0.2,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

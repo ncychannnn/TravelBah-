@@ -20,48 +20,48 @@ class CategoryChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 12,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary
-              : Colors.white,
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.shadow,
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          margin: const EdgeInsets.only(right: 12, bottom: 4, top: 4),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 10,
+          ),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? AppColors.primary
+                : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? AppColors.primary : AppColors.border,
+              width: 1,
             ),
-          ],
-        ),
-        child: Row(
-          children: [
-            if (!isSelected)
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Icon(
                 icon,
-                size: 18,
-                color: AppColors.primary,
-              ),
-
-            if (!isSelected)
-              const SizedBox(width: 8),
-
-            Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+                size: 16,
                 color: isSelected
                     ? Colors.white
-                    : AppColors.textDark,
+                    : AppColors.primary,
               ),
-            ),
-          ],
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: isSelected
+                      ? Colors.white
+                      : AppColors.textDark,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

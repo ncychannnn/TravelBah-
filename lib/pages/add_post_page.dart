@@ -268,271 +268,348 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  backgroundColor: AppColors.background,
-  appBar: AppBar(
-    backgroundColor: AppColors.background,
-    elevation: 0,
-    centerTitle: true,
-    leading: const CustomBackButton(),
-    title: Text(
-      widget.editingPost == null
-          ? "Share Your Journey"
-          : "Edit Journey",
-      style: const TextStyle(
-        color: Colors.black87,
-        fontWeight: FontWeight.bold,
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        centerTitle: true,
+        leading: const CustomBackButton(),
+        title: Text(
+          widget.editingPost == null
+              ? "Share Your Journey"
+              : "Edit Journey",
+          style: const TextStyle(
+            color: AppColors.textDark,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
       ),
-    ),
-  ),
-body: SafeArea(
-  child: SingleChildScrollView(
-    padding: const EdgeInsets.all(20),
-    child: Form(
-      key: formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          /// Upload Photo
-          GestureDetector(
-            onTap: pickImage,
-            child: Container(
-              height: 220,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.grey.shade300,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Upload Photo Card
+                GestureDetector(
+                  onTap: pickImage,
+                  child: Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF4F8FE),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.primary.withOpacity(0.35),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: (selectedImage == null && webImage == null)
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.add_a_photo_outlined,
+                                size: 48,
+                                color: AppColors.primary,
+                              ),
+                              SizedBox(height: 12),
+                              Text(
+                                "Upload Cover Photo",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.textDark,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "Tap to select an image from gallery",
+                                style: TextStyle(
+                                  color: AppColors.textGrey,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: kIsWeb
+                                ? Image.memory(
+                                    webImage!,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    selectedImage!,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                  ),
                 ),
-              ),
-              child: (selectedImage == null && webImage == null)
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.add_a_photo_outlined,
-                          size: 55,
-                          color: Colors.grey,
+
+                const SizedBox(height: 24),
+
+                const Text(
+                  "Title",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: AppColors.textDark,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                TextFormField(
+                  controller: titleController,
+                  style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+                  decoration: InputDecoration(
+                    hintText: "Enter post title",
+                    hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                const Text(
+                  "Location",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: AppColors.textDark,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                TextFormField(
+                  controller: locationController,
+                  style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+                  decoration: InputDecoration(
+                    hintText: "e.g., Mount Kinabalu, Sabah",
+                    hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                const Text(
+                  "Category",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: AppColors.textDark,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue value) {
+                    if (value.text.isEmpty) {
+                      return categories;
+                    }
+
+                    return categories.where(
+                      (category) => category
+                          .toLowerCase()
+                          .contains(value.text.toLowerCase()),
+                    );
+                  },
+                  onSelected: (value) {
+                    categoryController.text = value;
+                  },
+                  fieldViewBuilder: (
+                    context,
+                    controller,
+                    focusNode,
+                    onEditingComplete,
+                  ) {
+                    controller.text = categoryController.text;
+
+                    controller.selection = TextSelection.fromPosition(
+                      TextPosition(offset: controller.text.length),
+                    );
+
+                    controller.addListener(() {
+                      categoryController.text = controller.text;
+                    });
+
+                    return TextFormField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+                      decoration: InputDecoration(
+                        hintText: "Choose or type a category",
+                        hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: AppColors.border),
                         ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Upload Photo",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: AppColors.border),
                         ),
-                        SizedBox(height: 5),
-                        Text(
-                          "Tap to choose an image",
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      ),
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+                const Text(
+                  "Caption",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: AppColors.textDark,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                TextFormField(
+                  controller: captionController,
+                  maxLines: 5,
+                  style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+                  decoration: InputDecoration(
+                    hintText: "Share your travel experience...",
+                    hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
+                  ),
+                ),
+
+                const SizedBox(height: 36),
+
+                SizedBox(
+                  width: double.infinity,
+                  height: 54,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFF739EF1),
+                          AppColors.primary,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x1F5A8DEE),
+                          blurRadius: 16,
+                          offset: Offset(0, 6),
                         ),
                       ],
-                    )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: kIsWeb
-                        ? Image.memory(
-                            webImage!,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.file(
-                            selectedImage!,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          const Text(
-            "Title",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          TextFormField(
-            controller: titleController,
-            decoration: InputDecoration(
-              hintText: "Enter title",
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            "Location",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          TextFormField(
-            controller: locationController,
-            decoration: InputDecoration(
-              hintText: "Enter location",
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            "Category",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          Autocomplete<String>(
-            optionsBuilder: (TextEditingValue value) {
-              if (value.text.isEmpty) {
-                return categories;
-              }
-
-              return categories.where(
-                (category) => category
-                    .toLowerCase()
-                    .contains(value.text.toLowerCase()),
-              );
-            },
-            onSelected: (value) {
-              categoryController.text = value;
-            },
-            fieldViewBuilder: (
-              context,
-              controller,
-              focusNode,
-              onEditingComplete,
-            ) {
-              controller.text = categoryController.text;
-
-              controller.selection = TextSelection.fromPosition(
-                TextPosition(offset: controller.text.length),
-              );
-
-              controller.addListener(() {
-                categoryController.text = controller.text;
-              });
-
-              return TextFormField(
-                controller: controller,
-                focusNode: focusNode,
-                decoration: InputDecoration(
-                  hintText: "Choose or type a category",
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide.none,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: isLoading
+                        ? null
+                        : () {
+                            if (widget.editingPost == null) {
+                              uploadPost();
+                            } else {
+                              updatePost();
+                            }
+                          },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              widget.editingPost == null
+                                  ? "POST"
+                                  : "SAVE CHANGES",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
 
-          const SizedBox(height: 20),
+                const SizedBox(height: 30),
 
-          const Text(
-            "Caption",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+              ],
             ),
           ),
-
-          const SizedBox(height: 8),
-
-          TextFormField(
-            controller: captionController,
-            maxLines: 5,
-            decoration: InputDecoration(
-              hintText: "Share your travel experience...",
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 35),
-
-          SizedBox(
-            width: double.infinity,
-            height: 55,
-            child: ElevatedButton(
-              onPressed: isLoading
-                ? null
-                : () {
-                    if (widget.editingPost == null) {
-                      uploadPost();
-                    } else {
-                      updatePost();
-                    }
-                  },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff5A8DEE),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-              ),
-        child: isLoading
-            ? const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  color: Colors.white,
-                ),
-              )
-            : Text(
-                widget.editingPost == null
-                    ? "POST"
-                    : "SAVE CHANGES",
-                style: const TextStyle(
-                  fontSize: 17,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-        ],
+        ),
       ),
-    ),
-  ),
-),
-);
+    );
   }
 }
